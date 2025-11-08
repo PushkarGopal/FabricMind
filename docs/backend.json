@@ -1,0 +1,278 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the FabricMind platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address.",
+          "format": "email"
+        },
+        "name": {
+          "type": "string",
+          "description": "User's full name."
+        },
+        "userType": {
+          "type": "string",
+          "description": "The type of user, such as homeowner or interior designer."
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "name",
+        "userType"
+      ]
+    },
+    "Fabric": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Fabric",
+      "type": "object",
+      "description": "Represents a fabric available on the platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the fabric."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the fabric."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the fabric."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the fabric image.",
+          "format": "uri"
+        },
+        "availableColors": {
+          "type": "array",
+          "description": "List of available colors for the fabric.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "vendorId": {
+          "type": "string",
+          "description": "Reference to Vendor. (Relationship: Vendor 1:N Fabric)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "imageUrl",
+        "availableColors",
+        "vendorId"
+      ]
+    },
+    "Vendor": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Vendor",
+      "type": "object",
+      "description": "Represents a vendor providing fabrics on the platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the vendor."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the vendor."
+        },
+        "contactEmail": {
+          "type": "string",
+          "description": "Vendor's contact email address.",
+          "format": "email"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "contactEmail"
+      ]
+    },
+    "Query": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Query",
+      "type": "object",
+      "description": "Represents a user's search query for fabrics.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the query."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Query)"
+        },
+        "queryText": {
+          "type": "string",
+          "description": "The text of the user's query."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Timestamp of when the query was made.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "queryText",
+        "timestamp"
+      ]
+    },
+    "MoodBoard": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "MoodBoard",
+      "type": "object",
+      "description": "Represents a user-created mood board with selected fabrics.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the mood board."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N MoodBoard)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the mood board."
+        },
+        "fabricIds": {
+          "type": "array",
+          "description": "References to Fabrics. (Relationship: MoodBoard N:N Fabric)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the mood board."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp of when the mood board was created",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "name",
+        "fabricIds",
+        "createdAt"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles. Path-based ownership enforced by '{userId}' parameter.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/vendors/{vendorId}",
+        "definition": {
+          "entityName": "Vendor",
+          "schema": {
+            "$ref": "#/backend/entities/Vendor"
+          },
+          "description": "Stores vendor information. Path-based management of vendors.",
+          "params": [
+            {
+              "name": "vendorId",
+              "description": "The unique identifier of the vendor."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/fabrics/{fabricId}",
+        "definition": {
+          "entityName": "Fabric",
+          "schema": {
+            "$ref": "#/backend/entities/Fabric"
+          },
+          "description": "Stores fabric details. Enables filtering and display of fabrics by vendor via the 'vendorId' field.",
+          "params": [
+            {
+              "name": "fabricId",
+              "description": "The unique identifier of the fabric."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/queries/{queryId}",
+        "definition": {
+          "entityName": "Query",
+          "schema": {
+            "$ref": "#/backend/entities/Query"
+          },
+          "description": "Stores user's search queries. Path-based ownership ensures that only the user can access their own queries.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "queryId",
+              "description": "The unique identifier of the query."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/moodboards/{moodboardId}",
+        "definition": {
+          "entityName": "MoodBoard",
+          "schema": {
+            "$ref": "#/backend/entities/MoodBoard"
+          },
+          "description": "Stores user-created mood boards. Path-based ownership ensures that only the user can manage their own mood boards.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "moodboardId",
+              "description": "The unique identifier of the mood board."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support the AI-powered fabric discovery platform, FabricMind, with a focus on personalized recommendations, visual search, and mood board creation. The structure adheres to the core design principles of Authorization Independence, Clarity of Intent, DBAC, and QAPs. Authorization Independence is achieved via denormalization, particularly in the context of user-owned data. This eliminates the need for `get()` calls in security rules, ensuring atomic operations and easier debugging.\n\nSpecifically:\n\n*   **Users:** User data is stored in `/users/{userId}`. This allows for simple path-based ownership rules.\n*   **Vendors:** Vendor data is stored in `/vendors/{vendorId}`. This keeps vendor information separate and allows for easier management and scaling of vendors and fabrics.\n*   **Fabrics:** Fabric data is stored in `/fabrics/{fabricId}`. The `vendorId` is included to enable filtering and display of fabrics by vendor.  Consider including a searchable `keywords` field for AI-powered search.\n*   **Queries:** Queries are stored under `/users/{userId}/queries/{queryId}`.  This enforces ownership and allows efficient retrieval of a user's query history.\n*   **MoodBoards:** Mood boards are stored under `/users/{userId}/moodboards/{moodboardId}`. This enforces clear ownership and allows users to manage their mood boards effectively. The `fabricIds` array facilitates the display of fabrics within a mood board. Security rules should ensure that only the user who owns the mood board can modify it.\n\nThis structure supports QAPs (Rules are not Filters) by segregating data based on ownership (e.g., user-specific data under `/users/{userId}`).  For collaborative features (if any), a membership model (`members` map) would be used and denormalized where necessary.  However, based on the current requirements, simple path-based ownership is sufficient.\n\nTo improve the platform, consider adding denormalized fields to the Fabric entity. A `search_terms` array derived from the description and properties (such as color and material) would significantly enhance AI-powered search and recommendations.  This would involve a Cloud Function triggered on fabric creation/updates to generate the `search_terms`.\n\nConsider adding collections for user reviews of fabrics and vendors to improve the quality of AI recommendations and platform value."
+  }
+}

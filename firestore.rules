@@ -1,0 +1,156 @@
+/**
+ * @fileoverview Firestore Security Rules for FabricMind platform.
+ *
+ * Core Philosophy:
+ * This ruleset enforces a strict user-ownership model for user-specific data (queries, mood boards) nested under `/users/{userId}`.
+ * Top-level collections for vendors and fabrics are readable by anyone but only writable with proper authorization.
+ *
+ * Data Structure:
+ * - /users/{userId}: User profiles, only accessible by the user themselves.
+ * - /vendors/{vendorId}: Vendor information, publicly readable.
+ * - /fabrics/{fabricId}: Fabric details, publicly readable, vendorId links fabric to vendor.
+ * - /users/{userId}/queries/{queryId}: User's search queries, only accessible by the user.
+ * - /users/{userId}/moodboards/{moodboardId}: User's mood boards, only accessible by the user.
+ *
+ * Key Security Decisions:
+ * - Users can only create, read, update, and delete their own profiles and data under their user ID.
+ * - Public read access is granted to the `vendors` and `fabrics` collections.
+ * - The rules explicitly deny unauthorized access to any data.
+ *
+ * Denormalization for Authorization:
+ * - The `vendorId` field on the `Fabric` entity allows filtering and displaying fabrics by vendor without requiring complex rule logic.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Secure user profiles, accessible only by the user themselves.
+     * @path /users/{userId}
+     * @allow (create) User with ID 'user123' can create their profile if authenticated as 'user123'.
+     * @allow (get) User with ID 'user123' can read their profile if authenticated as 'user123'.
+     * @allow (update) User with ID 'user123' can update their profile if authenticated as 'user123'.
+     * @allow (delete) User with ID 'user123' can delete their profile if authenticated as 'user123'.
+     * @deny (create) User with ID 'user456' cannot create a profile for 'user123'.
+     * @deny (get) User with ID 'user456' cannot read the profile of 'user123'.
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+          return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Secure vendor information, publicly readable, owner management of vendors.
+     * @path /vendors/{vendorId}
+     * @allow (get) Any user can read vendor information.
+     * @allow (list) Listing vendors is disabled.
+     * @deny (create) No one can create vendors.
+     * @deny (update) No one can update vendors.
+     * @deny (delete) No one can delete vendors.
+     * @principle Public read access, restricted writes.
+     */
+    match /vendors/{vendorId} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Secure fabric details, publicly readable, owner management of fabrics by vendors.
+     * @path /fabrics/{fabricId}
+     * @allow (get) Any user can read fabric details.
+     * @allow (list) Listing fabrics is available to all users.
+     * @deny (create) No one can create fabrics.
+     * @deny (update) No one can update fabrics.
+     * @deny (delete) No one can delete fabrics.
+     * @principle Public read access, restricted writes.
+     */
+    match /fabrics/{fabricId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Secure user's search queries, accessible only by the user.
+     * @path /users/{userId}/queries/{queryId}
+     * @allow (create) User with ID 'user123' can create a query under their ID.
+     * @allow (get) User with ID 'user123' can read their own queries.
+     * @allow (update) User with ID 'user123' can update their own queries.
+     * @allow (delete) User with ID 'user123' can delete their own queries.
+     * @deny (create) User with ID 'user456' cannot create a query for 'user123'.
+     * @deny (get) User with ID 'user456' cannot read queries under 'user123'.
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId}/queries/{queryId} {
+        function isSignedIn() {
+          return request.auth != null;
+        }
+
+        function isOwner(userId) {
+          return request.auth.uid == userId;
+        }
+
+        function isExistingOwner(userId) {
+            return isOwner(userId) && resource != null;
+        }
+
+        allow get: if isOwner(userId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+        allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Secure user-created mood boards, accessible only by the user.
+     * @path /users/{userId}/moodboards/{moodboardId}
+     * @allow (create) User with ID 'user123' can create a mood board under their ID.
+     * @allow (get) User with ID 'user123' can read their own mood boards.
+     * @allow (update) User with ID 'user123' can update their own mood boards.
+     * @allow (delete) User with ID 'user123' can delete their own mood boards.
+     * @deny (create) User with ID 'user456' cannot create a mood board for 'user123'.
+     * @deny (get) User with ID 'user456' cannot read mood boards under 'user123'.
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId}/moodboards/{moodboardId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+          return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+  }
+}
