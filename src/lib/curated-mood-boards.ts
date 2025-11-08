@@ -18,7 +18,7 @@ export const curatedMoodBoards: CuratedMoodBoard[] = [
             {
                 fabricName: 'Belgian Linen',
                 description: 'A classic, breathable linen perfect for slipcovers and curtains.',
-                imageUrl: 'https://images.unsplash.com/photo-1622039649232-34670f209641?q=80&w=800'
+                imageUrl: 'https://images.unsplash.com/photo-1595349326981-83f59a1e4854?q=80&w=800'
             },
             {
                 fabricName: 'Chunky Knit Wool',
