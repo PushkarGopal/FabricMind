@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import { MoodBoardProvider } from '@/components/mood-board/mood-board-provider';
 import './globals.css';
+import { FirebaseClientProvider } from '@/firebase';
 
 export const metadata: Metadata = {
   title: 'FabricMind',
@@ -21,9 +22,11 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        <MoodBoardProvider>
-          {children}
-        </MoodBoardProvider>
+        <FirebaseClientProvider>
+          <MoodBoardProvider>
+            {children}
+          </MoodBoardProvider>
+        </FirebaseClientProvider>
         <Toaster />
       </body>
     </html>
