@@ -25,4 +25,28 @@ export const featuredFabrics: FabricSuggestion[] = [
         imageUrl: 'https://images.unsplash.com/photo-1629078633038-d614b8214f7b?q=80&w=800',
         properties: ['Textured', 'Cozy', 'Modern'],
     },
+    {
+        fabricName: 'Leopard Print Hair-on-Hide',
+        description: 'A neutral, but make it wild. Great for accent pieces.',
+        imageUrl: 'https://images.unsplash.com/photo-1593010375691-22c159f33339?q=80&w=800',
+        properties: ['Bold', 'Textural', 'Animal Print']
+    },
+    {
+        fabricName: 'Washed Linen in Earth Tones',
+        description: 'Soft, rumpled, and perfectly imperfect for a relaxed vibe.',
+        imageUrl: 'https://images.unsplash.com/photo-1596731362295-ec57b8a1c902?q=80&w=800',
+        properties: ['Casual', 'Natural', 'Comfortable']
+    },
+    {
+        fabricName: 'Hot Pink Silk',
+        description: 'Unapologetically vibrant and luxurious for a pop of color.',
+        imageUrl: 'https://images.unsplash.com/photo-1587609799979-997c274f3462?q=80&w=800',
+        properties: ['Silk', 'Vibrant', 'Luxurious']
+    },
+    {
+        fabricName: 'Hemp Canvas',
+        description: 'Durable, sustainable, and texturally interesting for upholstery.',
+        imageUrl: 'https://images.unsplash.com/photo-1621343429390-34185c49b071?q=80&w=800',
+        properties: ['Sustainable', 'Durable', 'Textured']
+    }
 ];
