@@ -1,3 +1,22 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "living-room-sofa",
+      "description": "A modern living room with a neutral colored sofa.",
+      "imageUrl": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxsaXZpbmclMjByb29tJTIwc29mYXxlbnwwfHx8fDE3NjI1MTIzNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "living room sofa"
+    },
+    {
+      "id": "armchair-corner",
+      "description": "A cozy reading corner with a comfortable armchair.",
+      "imageUrl": "https://images.unsplash.com/photo-1558636815-1978d0419bff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxyZWFkaW5nJTIwY29ybmVyJTIwYXJtY2hhaXJ8ZW58MHx8fHwxNzYyNjIyMjI5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "reading corner armchair"
+    },
+    {
+      "id": "bedroom-headboard",
+      "description": "A stylish bedroom with a prominent headboard.",
+      "imageUrl": "https://images.unsplash.com/photo-1560184897-502a475f7a0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxiZWRyb29tJTIwaGVhZGJvYXJkfGVufDB8fHx8MTc2MjYyMjIyOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bedroom headboard"
+    }
+  ]
 }
