@@ -4,8 +4,8 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 240 50"
-      width="144"
+      viewBox="0 0 250 50"
+      width="150"
       height="30"
       {...props}
     >
@@ -17,7 +17,7 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
       </defs>
       
       {/* Background layer */}
-      <rect width="240" height="50" fill="hsl(var(--background))" />
+      <rect width="250" height="50" fill="hsl(var(--background))" />
 
       {/* Stylized fabric icon */}
       <path 
