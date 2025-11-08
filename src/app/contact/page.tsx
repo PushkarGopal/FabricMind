@@ -30,7 +30,7 @@ export default function ContactPage() {
                     <div>
                         <h3 className="text-lg font-semibold">Email</h3>
                         <p className="text-muted-foreground">Reach out to us anytime.</p>
-                        <a href="mailto:contact@fabricmind.com" className="text-primary hover:underline">contact@fabricmind.com</a>
+                        <a href="mailto:24210077@iitgn.ac.in" className="text-primary hover:underline">24210077@iitgn.ac.in</a>
                     </div>
                 </div>
                 <div className="flex items-start gap-4">
