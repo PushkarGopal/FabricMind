@@ -16,6 +16,9 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
         </linearGradient>
       </defs>
       
+      {/* Background layer */}
+      <rect width="240" height="50" fill="hsl(var(--background))" />
+
       {/* Stylized fabric icon */}
       <path 
         d="M 10 10 C 15 15, 25 15, 30 10 S 40 5, 45 10 M 10 20 C 15 25, 25 25, 30 20 S 40 15, 45 20 M 10 30 C 15 35, 25 35, 30 30 S 40 25, 45 30 M 10 40 C 15 45, 25 45, 30 40 S 40 35, 45 40" 
