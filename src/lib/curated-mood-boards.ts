@@ -18,7 +18,7 @@ export const curatedMoodBoards: CuratedMoodBoard[] = [
             {
                 fabricName: 'Belgian Linen',
                 description: 'A classic, breathable linen perfect for slipcovers and curtains.',
-                imageUrl: 'https://images.unsplash.com/photo-1595349326981-83f59a1e4854?q=80&w=800'
+                imageUrl: 'https://images.unsplash.com/photo-1622342537109-170458695844?q=80&w=800'
             },
             {
                 fabricName: 'Chunky Knit Wool',
@@ -104,7 +104,7 @@ export const curatedMoodBoards: CuratedMoodBoard[] = [
             {
                 fabricName: 'Indigo Shibori Cotton',
                 description: 'Hand-dyed patterns that are unique and organic.',
-                imageUrl: 'https://images.unsplash.com/photo-1604866838338-73239a0d5c07?q=80&w=800'
+                imageUrl: 'https://images.unsplash.com/photo-1596731362295-ec57b8a1c902?q=80&w=800'
             },
             {
                 fabricName: 'Hemp Canvas',

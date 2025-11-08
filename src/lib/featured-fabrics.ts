@@ -16,7 +16,7 @@ export const featuredFabrics: FabricSuggestion[] = [
     {
         fabricName: 'Indigo Shibori Cotton',
         description: 'Hand-dyed patterns that are unique and organic.',
-        imageUrl: 'https://images.unsplash.com/photo-1604866838338-73239a0d5c07?q=80&w=800',
+        imageUrl: 'https://images.unsplash.com/photo-1596731362295-ec57b8a1c902?q=80&w=800',
         properties: ['Artisanal', 'Cotton', 'Patterned'],
     },
     {
