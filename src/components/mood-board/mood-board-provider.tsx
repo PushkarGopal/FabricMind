@@ -41,20 +41,29 @@ export function MoodBoardProvider({ children }: { children: ReactNode }) {
   }, [moodBoard, isMounted]);
 
   const addToMoodBoard = useCallback((fabric: FabricSuggestion) => {
+    let wasAdded = false;
+    let alreadyExists = false;
+
     setMoodBoard((prev) => {
       if (prev.some((item) => item.fabricName === fabric.fabricName)) {
+        alreadyExists = true;
+        return prev;
+      }
+      wasAdded = true;
+      return [...prev, fabric];
+    });
+
+    if (alreadyExists) {
         toast({
             title: "Already in Mood Board",
             description: `${fabric.fabricName} is already on your mood board.`,
         });
-        return prev;
-      }
-      toast({
-        title: "Added to Mood Board",
-        description: `Successfully added ${fabric.fabricName}.`,
-      });
-      return [...prev, fabric];
-    });
+    } else if (wasAdded) {
+        toast({
+            title: "Added to Mood Board",
+            description: `Successfully added ${fabric.fabricName}.`,
+        });
+    }
   }, [toast]);
 
   const removeFromMoodBoard = useCallback((fabricName: string) => {
