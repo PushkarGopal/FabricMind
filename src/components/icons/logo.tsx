@@ -29,7 +29,7 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
       />
 
       <text
-        x="60"
+        x="55"
         y="33"
         fontFamily="Playfair Display, serif"
         fontSize="36"
