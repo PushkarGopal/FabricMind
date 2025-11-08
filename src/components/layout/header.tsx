@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { Logo } from '@/components/icons/logo';
 import { MoodBoardSheet } from '@/components/mood-board/mood-board-sheet';
+import { Button } from '../ui/button';
+import { Users } from 'lucide-react';
 
 export function Header() {
   return (
@@ -9,7 +11,15 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2">
           <Logo className="h-6 w-auto" />
         </Link>
-        <MoodBoardSheet />
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" asChild>
+            <Link href="/community">
+              <Users className="mr-2 h-5 w-5" />
+              Community
+            </Link>
+          </Button>
+          <MoodBoardSheet />
+        </div>
       </div>
     </header>
   );
