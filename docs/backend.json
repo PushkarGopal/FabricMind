@@ -174,6 +174,35 @@
         "fabricIds",
         "createdAt"
       ]
+    },
+    "Showcase": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Showcase",
+      "type": "object",
+      "description": "Represents a publicly shared mood board showcase.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the showcase."
+        },
+        "fabrics": {
+          "type": "array",
+          "description": "An array of fabric objects included in the showcase.",
+          "items": {
+            "$ref": "#/backend/entities/Fabric"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp of when the showcase was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "fabrics",
+        "createdAt"
+      ]
     }
   },
   "auth": {
@@ -271,8 +300,25 @@
             }
           ]
         }
+      },
+      {
+        "path": "/showcases/{showcaseId}",
+        "definition": {
+          "entityName": "Showcase",
+          "schema": {
+            "$ref": "#/backend/entities/Showcase"
+          },
+          "description": "Stores publicly shared mood board showcases.",
+          "params": [
+            {
+              "name": "showcaseId",
+              "description": "The unique identifier of the showcase."
+            }
+          ]
+        }
       }
     ],
     "reasoning": "The Firestore data structure is designed to support the AI-powered fabric discovery platform, FabricMind, with a focus on personalized recommendations, visual search, and mood board creation. The structure adheres to the core design principles of Authorization Independence, Clarity of Intent, DBAC, and QAPs. Authorization Independence is achieved via denormalization, particularly in the context of user-owned data. This eliminates the need for `get()` calls in security rules, ensuring atomic operations and easier debugging.\n\nSpecifically:\n\n*   **Users:** User data is stored in `/users/{userId}`. This allows for simple path-based ownership rules.\n*   **Vendors:** Vendor data is stored in `/vendors/{vendorId}`. This keeps vendor information separate and allows for easier management and scaling of vendors and fabrics.\n*   **Fabrics:** Fabric data is stored in `/fabrics/{fabricId}`. The `vendorId` is included to enable filtering and display of fabrics by vendor.  Consider including a searchable `keywords` field for AI-powered search.\n*   **Queries:** Queries are stored under `/users/{userId}/queries/{queryId}`.  This enforces ownership and allows efficient retrieval of a user's query history.\n*   **MoodBoards:** Mood boards are stored under `/users/{userId}/moodboards/{moodboardId}`. This enforces clear ownership and allows users to manage their mood boards effectively. The `fabricIds` array facilitates the display of fabrics within a mood board. Security rules should ensure that only the user who owns the mood board can modify it.\n\nThis structure supports QAPs (Rules are not Filters) by segregating data based on ownership (e.g., user-specific data under `/users/{userId}`).  For collaborative features (if any), a membership model (`members` map) would be used and denormalized where necessary.  However, based on the current requirements, simple path-based ownership is sufficient.\n\nTo improve the platform, consider adding denormalized fields to the Fabric entity. A `search_terms` array derived from the description and properties (such as color and material) would significantly enhance AI-powered search and recommendations.  This would involve a Cloud Function triggered on fabric creation/updates to generate the `search_terms`.\n\nConsider adding collections for user reviews of fabrics and vendors to improve the quality of AI recommendations and platform value."
   }
 }
+    

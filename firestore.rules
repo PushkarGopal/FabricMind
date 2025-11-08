@@ -11,10 +11,12 @@
  * - /fabrics/{fabricId}: Fabric details, publicly readable, vendorId links fabric to vendor.
  * - /users/{userId}/queries/{queryId}: User's search queries, only accessible by the user.
  * - /users/{userId}/moodboards/{moodboardId}: User's mood boards, only accessible by the user.
+ * - /showcases/{showcaseId}: Publicly shared mood boards, readable by anyone, writable by any authenticated user.
  *
  * Key Security Decisions:
  * - Users can only create, read, update, and delete their own profiles and data under their user ID.
- * - Public read access is granted to the `vendors` and `fabrics` collections.
+ * - Public read access is granted to the `vendors`, `fabrics` and `showcases` collections.
+ * - Authenticated users can create `showcases`.
  * - The rules explicitly deny unauthorized access to any data.
  *
  * Denormalization for Authorization:
@@ -152,5 +154,28 @@ service cloud.firestore {
       allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
       allow delete: if isExistingOwner(userId);
     }
+
+    /**
+     * @description Publicly shared mood board showcases.
+     * @path /showcases/{showcaseId}
+     * @allow (get) Any user can read showcase information.
+     * @allow (list) Listing showcases is available to all users.
+     * @allow (create) Authenticated users can create showcases.
+     * @deny (update) No one can update showcases.
+     * @deny (delete) No one can delete showcases.
+     * @principle Public read access, authenticated writes.
+     */
+    match /showcases/{showcaseId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+      
+      allow get: if true;
+      allow list: if true;
+      allow create: if isSignedIn();
+      allow update: if false;
+      allow delete: if false;
+    }
   }
 }
+    
