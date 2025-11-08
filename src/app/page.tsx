@@ -17,7 +17,7 @@ export default function Home() {
         <FabricSearchContainer />
       </main>
       <footer className="py-6 text-center text-sm text-muted-foreground">
-        <p>Powered by FabricMind AI</p>
+        <p>Created by Pushkar Gopal</p>
       </footer>
     </div>
   );
