@@ -49,8 +49,8 @@ export default function ContactPage() {
                     </div>
                     <div>
                         <h3 className="text-lg font-semibold">Office</h3>
-                        <p className="text-muted-foreground">123 Fabric Lane, Design District</p>
-                        <p className="text-primary">Textile City, TX 75001</p>
+                        <p className="text-muted-foreground">IIT Gandhinagar, Palaj</p>
+                        <p className="text-primary">Gandhinagar, Gujarat, India, 382055</p>
                     </div>
                 </div>
             </div>
