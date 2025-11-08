@@ -1,6 +1,7 @@
 import { Header } from '@/components/layout/header';
 import { CuratedMoodBoardCard } from '@/components/mood-board/curated-mood-board-card';
 import { curatedMoodBoards } from '@/lib/curated-mood-boards';
+import { Footer } from '@/components/layout/footer';
 
 export default function CommunityPage() {
   return (
@@ -22,9 +23,7 @@ export default function CommunityPage() {
             ))}
         </div>
       </main>
-      <footer className="py-6 text-center text-sm text-muted-foreground">
-        <p>Created by Pushkar Gopal</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

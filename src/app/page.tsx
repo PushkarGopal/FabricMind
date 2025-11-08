@@ -1,6 +1,7 @@
 import { Header } from '@/components/layout/header';
 import { FabricSearchContainer } from '@/components/search/fabric-search-container';
 import { FeaturedFabrics } from '@/components/results/featured-fabrics';
+import { Footer } from '@/components/layout/footer';
 
 export default function Home() {
   return (
@@ -20,9 +21,7 @@ export default function Home() {
           <FeaturedFabrics />
         </div>
       </main>
-      <footer className="py-6 text-center text-sm text-muted-foreground">
-        <p>Created by Pushkar Gopal</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { AuthForm } from '@/components/auth/auth-form';
 import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
 
 export default function LoginPage() {
   return (
@@ -13,9 +14,7 @@ export default function LoginPage() {
           <AuthForm />
         </div>
       </main>
-      <footer className="py-6 text-center text-sm text-muted-foreground">
-        <p>Created by Pushkar Gopal</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
